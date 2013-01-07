@@ -17,14 +17,13 @@
           // delete settings.beforeSend;
           delete settings.beforeSend;
 
-          settings.iframe      = true;
-          settings.files       = $($.rails.fileInputSelector, form);
-          settings.data        = form.serializeArray();
-          settings.processData = false;
+          settings.dataType = 'iframe ' + (settings.dataType || '');
+          settings.fileInput       = $($.rails.fileInputSelector, form);
+          settings.formData        = form.serializeArray();
 
           // Modify some settings to integrate JS request with rails helpers and middleware
           if (settings.dataType === undefined) { settings.dataType = 'script *'; }
-          settings.data.push({name: 'remotipart_submitted', value: true});
+          settings.formData.push({name: 'remotipart_submitted', value: true});
 
           // Allow remotipartSubmit to be cancelled if needed
           if ($.rails.fire(form, 'ajax:remotipartSubmit', [xhr, settings])) {
